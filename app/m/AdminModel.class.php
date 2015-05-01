@@ -6,7 +6,6 @@
  * Time: 下午9:05
  */
 
-require_once './framework/Model.class.php';
 class AdminModel extends Model {
 
     /**
