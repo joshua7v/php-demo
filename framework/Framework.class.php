@@ -8,15 +8,20 @@
 
 class Framework {
 
-    private $classes = array(
-//        'class name' => 'path'
-        'MySQLDB' => './framework/MySQLDB.class.php',
-        'Model' => './framework/Model.class.php',
-        'Framework' => './framwork/Framework.class.php'
-    );
+    private $classes;
+
+    private function _initClasses() {
+        $this->classes = array(
+            'MySQLDB' => FRAMEWORK_PATH . 'MySQLDB.class.php',
+            'Model' => FRAMEWORK_PATH . 'Model.class.php',
+            'Framework' => FRAMEWORK_PATH . 'Framework.class.php'
+        );
+    }
 
     public function run() {
+        $this->_initPath();
         $this->_initDispatchParam();
+        $this->_initClasses();
         // register autoload
         spl_autoload_register(array($this, 'userAutoload'));
         $this->_dispatch();
@@ -37,9 +42,9 @@ class Framework {
             // load
             require $this->classes[$class_name];
         } else if (substr($class_name, -5) == 'Model') {
-            require './app/m/' . $class_name . '.class.php';
+            require MODEL_PATH . $class_name . '.class.php';
         } else if (substr($class_name, -10) == 'Controller') {
-            require './app/c/' . PLATFORM . '/' . $class_name . '.class.php';
+            require CURRENT_CONTROLLER_PATH . $class_name . '.class.php';
         }
     }
 
@@ -47,10 +52,19 @@ class Framework {
         define('PLATFORM', isset($_GET['p']) ? $_GET['p'] : 'f');
         define('CONTROLLER', isset($_GET['c']) ? $_GET['c'] : 'UEFA Champions League');
         define('ACTION', isset($_GET['a']) ? $_GET['a'] : 'match');
+
+        define('CURRENT_CONTROLLER_PATH', CONTROLLER_PATH . PLATFORM . '/');
+        define('CURRENT_VIEW_PATH', VIEW_PATH . PLATFORM . '/');
     }
 
-    private function initPath() {
-
+    private function _initPath() {
+        define('ROOT_PATH', getcwd() . '/');
+        define('FRAMEWORK_PATH', ROOT_PATH . 'framework/');
+        define('APP_PATH', ROOT_PATH . 'app/');
+        define('CONTROLLER_PATH', APP_PATH . 'c/');
+        define('MODEL_PATH', APP_PATH . 'm/');
+        define('VIEW_PATH', APP_PATH . 'v/');
+        define('WEB_PATH', ROOT_PATH . 'web/');
     }
 
     private function initConfig() {

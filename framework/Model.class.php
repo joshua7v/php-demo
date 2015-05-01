@@ -17,7 +17,6 @@ class Model {
      * init
      */
     protected function _initDB () {
-        require_once './framework/MySQLDB.class.php';
         $config = array('host'=>'127.0.0.1', 'user'=>'root', 'pass'=>'419512', 'dbname'=>'shop');
         $this->_db = MySQLDB::getInstance($config);
     }

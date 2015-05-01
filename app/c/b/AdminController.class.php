@@ -13,7 +13,7 @@ class AdminController {
      */
     public function login() {
         // display login template
-        include './app/v/b/login.html';
+        include CURRENT_VIEW_PATH . 'login.html';
     }
 
     /**
@@ -26,7 +26,7 @@ class AdminController {
         $admin_pass = $_POST['password'];
 
         // invoke db model to authenticate
-        require './app/m/AdminModel.class.php';
+//        require './app/m/AdminModel.class.php';
         $model_admin = new AdminModel;
         if ($model_admin->check($admin_name, $admin_pass)) {
             // success
